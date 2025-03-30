@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SomaFM Groove Salad - Music Player</title>
+    <title>Music Player</title>
     <link rel="stylesheet" href="styles.css">
     <script defer src="script.js">
 </script>
@@ -22,125 +22,6 @@
     </div>
     <audio id="audioPlayer" src="https://ice1.somafm.com/groovesalad-128-mp3" crossorigin="anonymous">
 </audio>
-    <style>
-        body {
-            font-family: "Poppins", sans-serif;
-            background-color: #121212;
-            color: #ffffff;
-            text-align: center;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
-            overflow: hidden;
-            position: relative;
-}
-        #visualizer {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: -1;
-            filter: blur(50px);
-}
-        .player-container {
-            background: rgba(30, 30, 30, 0.9);
-            padding: 30px;
-            border-radius: 15px;
-            box-shadow: 0px 10px 30px rgba(255, 255, 255, 0.15);
-            max-width: 350px;
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-}
-        .player-controls {
-            position: absolute;
-            right: 20px;
-            top: 50%;
-            transform: translateY(-50%);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 15px;
-}
-        .volume-container {
-            background: rgba(255, 255, 255, 0.1);
-            padding: 10px;
-            border-radius: 10px;
-            box-shadow: 0px 4px 15px rgba(255, 64, 129, 0.3);
-}
-        input[type="range"] {
-            -webkit-appearance: none;
-            width: 10px;
-            height: 150px;
-            background: linear-gradient(to top, #ff4081, #ff9100);
-            border-radius: 5px;
-            writing-mode: vertical-rl;
-            transform: rotate(180deg);
-            cursor: pointer;
-}
-        input[type="range"]::-webkit-slider-thumb {
-            -webkit-appearance: none;
-            width: 16px;
-            height: 16px;
-            background: #fff;
-            border-radius: 50%;
-            cursor: pointer;
-            box-shadow: 0px 0px 10px rgba(255, 255, 255, 0.3);
-}
-    </style>
-    <script>
-        const audioPlayer = document.getElementById("audioPlayer");
-        const volumeControl = document.getElementById("volume");
-        const canvas = document.getElementById("visualizer");
-        const ctx = canvas.getContext("2d");
-        canvas.width = window.innerWidth;
-        canvas.height = window.innerHeight;
-        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-        const analyser = audioCtx.createAnalyser();
-        const source = audioCtx.createMediaElementSource(audioPlayer);
-        source.connect(analyser);
-        analyser.connect(audioCtx.destination);
-        analyser.fftSize = 256;
-        const bufferLength = analyser.frequencyBinCount;
-        const dataArray = new Uint8Array(bufferLength);
-        function drawVisualizer() {
-            requestAnimationFrame(drawVisualizer);
-            analyser.getByteFrequencyData(dataArray);
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-            const barWidth = (canvas.width / bufferLength) * 2.5;
-            let x = 0;
-            for (let i = 0;
- i < bufferLength;
- i++) {
-                const barHeight = dataArray[i] / 1.5;
-                ctx.fillStyle = `rgba(${
-  barHeight + 100
-}, 50, 250, 0.8)`;
-                ctx.shadowBlur = 40;
-                ctx.shadowColor = `rgb(${
-  barHeight + 100
-}, 50, 250)`;
-                ctx.fillRect(x, (canvas.height - barHeight) / 2, barWidth, barHeight);
-                x += barWidth + 2;
-}
-}
-        document.querySelector(".player-container").addEventListener("dblclick", () => {
-            if (audioPlayer.paused) {
-                audioPlayer.play();
-                if (audioCtx.state === "suspended") {
-                    audioCtx.resume();
-}
-                drawVisualizer();
-} else {
-                audioPlayer.pause();
-}
-});
-        volumeControl.addEventListener("input", () => {
-            audioPlayer.volume = volumeControl.value;
-});
-    </script>
+   
 </body>
 </html>
