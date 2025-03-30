@@ -28,9 +28,8 @@
           x += barWidth + 2;
         }
       }
-      document
-        .querySelector(".player-container")
-        .addEventListener("dblclick", () => {
+            document.addEventListener("dblclick", (event) => {
+        if (!event.target.closest(".player-container")) {
           if (audioPlayer.paused) {
             audioPlayer.play();
             if (audioCtx.state === "suspended") {
@@ -40,7 +39,9 @@
           } else {
             audioPlayer.pause();
           }
-        });
+        }
+      });
+
       volumeControl.addEventListener("input", () => {
         audioPlayer.volume = volumeControl.value;
       });
